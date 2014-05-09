@@ -1,5 +1,5 @@
 from flask import Flask
-form flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy
 
 import os
 from flask.ext.login import LoginManager
@@ -13,7 +13,7 @@ db=SQLAlchemy(app)
 lm=LoginManager()
 lm.init_app(app)
 lm.login_view='login'
-oid=OPenID(app,os.path.join(basedir,'tmp'))
+oid=OpenID(app,os.path.join(basedir,'tmp'))
 
 from app import views,models
 
