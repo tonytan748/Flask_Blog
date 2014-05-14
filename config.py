@@ -14,10 +14,12 @@ OPENID_PROVIDERS=[{'name':'Google','url':'https://www.google.com/accounts/o8/id'
 		{'name':'MyOpenID','url':'https://www.myopenid.com'}]
 
 #mail server settings
-MAIL_SERVER='loaclhost'
-MAIL_PORT=25
-MAIL_USERNAME=None
-MAIL_PASSWORD=None
+MAIL_SERVER='smtp.googlemail.com'
+MAIL_PORT=465
+MAIL_USE_TLS=False
+MAIL_USE_SSL=True
+MAIL_USERNAME='tonytan748'
+MAIL_PASSWORD='violin1981'
 
 #administrator list
 ADMINS=['tonytan748@gmail.com']
@@ -26,3 +28,4 @@ ADMINS=['tonytan748@gmail.com']
 POSTS_PER_PAGE=3
 
 WHOOSH_BASE = os.path.join(basedir,'search.db')
+MAX_SEARCH_RESULTS=50
