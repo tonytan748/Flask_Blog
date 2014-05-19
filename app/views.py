@@ -8,8 +8,9 @@ from models import User, ROLE_USER, ROLE_ADMIN, Post
 from datetime import datetime
 from emails import follower_notification
 from guess_language import guessLanguage
-from translate import microsoft_translate
+#from translate import microsoft_translate
 from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES, DATABASE_QUERY_TIMEOUT,WHOOSH_ENABLED
+from translate import microsoft_translate
 
 @lm.user_loader
 def load_user(id):
@@ -44,7 +45,10 @@ def after_request(response):
 def index(page = 1):
 	form=PostForm()
 	if form.validate_on_submit():
-		post = Post(body = form.post.data,timestamp=datetime.utcnow(),author = g.user)
+		language=guessLanguage(form.post.data)
+		if language == 'UNKNOWN' or len(language) > 5:
+			language = ''
+		post = Post(body = form.post.data,timestamp=datetime.utcnow(),author = g.user,language=language)
 		db.session.add(post)
 		db.session.commit()
 		flash('Youur post is now live!')
@@ -188,3 +192,12 @@ def search_results(query):
 	results=Post.query.whoosh_search(query,MAX_SEARCH_RESULTS).all()
 	return render_template('search_results.html',query=query,results=results)
 
+@app.route('/translate',methods=['POST'])
+@login_required
+def translate():
+	return jsonify({
+		'text':microsoft_translate(
+			request.form['text'],
+			request.form['sourceLang'],
+			request.form['destLang']
+	)})

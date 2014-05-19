@@ -1,0 +1,3 @@
+{%if post.language != None and post.language != '' and post.language != g.locale%}
+	<div><span id="translation{{post.id}}"><a href="javascript:translate('{{post.language}}','{{g.locale}}','#post{{post.id}}','#translation{{post.id}}','#loading{{post.id}}');">{{_('Translate')}}</a></span></div>
+{%endif%}

@@ -14,5 +14,5 @@ def send_email(subject,sender,recipients,text_body,html_body):
 	msg.html=html_body
 	send_async_email(msg)
 
-def follower_notigication(followed,follower):
+def follower_notification(followed,follower):
 	send_email("[blog] %s is now following you!" % follower.nickname,ADMINS[0],[followed.email],render_template("follower_email.txt",user=followed,follower=follower),render_template("follower_email.heml",user=followed,follower=follower))
