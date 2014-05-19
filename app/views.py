@@ -135,6 +135,21 @@ def edit():
 def internal_error(error):
 	return render_template('404.html'),404
 
+@app.route('/delete/<int:id>')
+@login_required
+def delete(id):
+	post=Post.query.get(id)
+	if post == None:
+		flash('Post not found.')
+		return redirect(url_for('index'))
+	if post.author.id != g.user.id:
+		flash('You cannot delete this post.')
+		return redirect(url_for('index'))
+	db.session.delete(post)
+	db.session.commit()
+	flash('Your post has been deleted.')
+	return redirect(url_for('index'))
+
 @app.errorhandler(500)
 def internal_error(error):
 	db.session.rollback()
